@@ -154,6 +154,26 @@ svg.svg-inline--fa{height:1em;vertical-align:-.125em}
 .rx td:nth-child(2),.rx td:nth-child(3),.rx td:nth-child(4){font-size:17px}
 .rxm{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin-top:10px}
 .al b{font-weight:800}
+.grp{margin-bottom:16px}
+.opts{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:8px}@media(max-width:700px){.opts{grid-template-columns:1fr}}
+.opt{background:var(--bg);border-radius:22px;padding:18px;cursor:pointer;border:2px solid transparent;box-shadow:5px 5px 12px var(--sd),-5px -5px 12px var(--sl);transition:transform .3s var(--ease),border-color .3s,box-shadow .3s}
+.opt:hover{transform:translateY(-3px)}
+.opt.on{border-color:var(--ac);box-shadow:0 0 0 4px rgba(110,130,255,.16),5px 5px 12px var(--sd),-5px -5px 12px var(--sl)}
+.oh{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:12px}
+.ot{display:inline-flex;gap:8px;align-items:center;font-size:11.5px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--ac)}
+.os{font-size:11.5px;font-weight:700;color:var(--mu)}.opt.on .os{color:var(--ok)}
+.opt .big{font-size:22px;margin:0 0 10px}.opt .hero{margin-bottom:8px}
+.on2{font-size:12.5px;color:var(--mu);margin-top:8px;line-height:1.5}
+
+.chk{display:flex;flex-wrap:wrap;gap:10px}
+.ck{position:relative;display:inline-flex;margin:0;text-transform:none;letter-spacing:0;font-size:13px;color:var(--tx);cursor:pointer}
+.ck input{position:absolute;opacity:0;width:100%;height:100%;margin:0;cursor:pointer}
+.ck span{display:inline-flex;align-items:center;gap:8px;padding:10px 14px;border-radius:14px;font-weight:700;background:var(--bg);box-shadow:4px 4px 9px var(--sd),-4px -4px 9px var(--sl);transition:transform .25s var(--ease),box-shadow .25s,background .25s}
+.ck span svg{color:var(--ac);transition:color .25s}
+.ck:hover span{transform:translateY(-1px)}
+.ck input:checked+span{background:linear-gradient(135deg,var(--ac),var(--ac2));color:#fff;box-shadow:0 8px 16px -8px var(--ac)}
+.ck input:checked+span svg{color:#fff}
+.ck input:focus-visible+span{outline:2px solid var(--ac);outline-offset:2px}
 </style></head><body><div class="w">
 <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px"><div><div class="eb"><i class="fa-solid fa-glasses"></i> Óptica &amp; Contactología</div><h1>Asistente <span>óptico</span></h1></div><button class="btn" id="th" aria-label="Cambiar entre modo claro y oscuro" title="Modo claro / oscuro"><i class="fa-solid fa-moon"></i></button></div>
 <p class="sub">Ingresá la receta y obtené el cristal, tratamientos, armazón y lente de contacto más adecuados.</p>
@@ -165,9 +185,15 @@ svg.svg-inline--fa{height:1em;vertical-align:-.125em}
 <div class="r"><div><label>Esfera</label><input class="in" id="od_s" type="number" step=".25"></div><div><label>Cilindro</label><input class="in" id="od_c" type="number" step=".25"></div><div><label>Eje °</label><input class="in" id="od_a" type="number" min="0" max="180"></div></div>
 <div class="eye">OI · Ojo izquierdo</div>
 <div class="r"><div><label>Esfera</label><input class="in" id="oi_s" type="number" step=".25"></div><div><label>Cilindro</label><input class="in" id="oi_c" type="number" step=".25"></div><div><label>Eje °</label><input class="in" id="oi_a" type="number" min="0" max="180"></div></div>
-<div class="r"><div><label>Adición</label><input class="in" id="add" type="number" step=".25"></div><div><label>DP mm</label><input class="in" id="dp" type="number" step=".5"></div><div><label>Edad</label><input class="in" id="age" type="number"></div></div>
-<div class="r2"><div><label>Uso principal</label><select class="in" id="uso"><option value="gen">General</option><option value="pan">Pantallas / oficina</option><option value="con">Conducción</option><option value="dep">Deporte / niños activos</option><option value="ext">Mucho exterior</option></select></div>
-<div><label>Preferencia de armazón</label><select class="in" id="pref"><option value="">Sin preferencia</option><option value="liv">Liviano / minimalista</option><option value="com">Completo / resistente</option></select></div></div>
+<div class="r2"><div><label>Adición</label><input class="in" id="add" type="number" step=".25"></div><div><label>Edad</label><input class="in" id="age" type="number"></div></div>
+<label>DP monocular (mm)</label>
+<div class="r2" style="margin-bottom:4px"><div><input class="in" id="dp_od" type="number" step=".5" placeholder="OD · ej. 28"></div><div><input class="in" id="dp_oi" type="number" step=".5" placeholder="OI · ej. 28"></div></div>
+<div class="note" style="margin-bottom:14px">Distancia del centro de la nariz a cada pupila: una DP total de 56 se carga como 28 / 28.</div>
+<label>Altura pupilar (mm)</label>
+<div class="r2" style="margin-bottom:4px"><div><input class="in" id="hp_od" type="number" step=".5" placeholder="OD · ej. 22"></div><div><input class="in" id="hp_oi" type="number" step=".5" placeholder="OI · ej. 22"></div></div>
+<div class="note" style="margin-bottom:14px">Del punto más bajo del aro al centro de la pupila, con el armazón puesto. Obligatoria en progresivos.</div>
+<div class="grp"><label>Uso principal · podés elegir varios</label><div class="chk"><label class="ck"><input type="checkbox" class="uso" value="pan"><span><i class="fa-solid fa-desktop"></i>Computadora</span></label><label class="ck"><input type="checkbox" class="uso" value="ext"><span><i class="fa-solid fa-cloud-sun"></i>Aire libre</span></label><label class="ck"><input type="checkbox" class="uso" value="con"><span><i class="fa-solid fa-car-side"></i>Conducción</span></label><label class="ck"><input type="checkbox" class="uso" value="dep"><span><i class="fa-solid fa-person-running"></i>Deporte</span></label><label class="ck"><input type="checkbox" class="uso" value="lec"><span><i class="fa-solid fa-book-open"></i>Lectura / cerca</span></label><label class="ck"><input type="checkbox" class="uso" value="gen"><span><i class="fa-solid fa-eye"></i>Uso general</span></label><label class="ck"><input type="checkbox" class="uso" value="kid"><span><i class="fa-solid fa-child"></i>Niños</span></label></div></div>
+<div class="grp"><label>Preferencia de armazón · opcional</label><div class="chk"><label class="ck"><input type="checkbox" class="pf" value="aire"><span><i class="fa-solid fa-feather-pointed"></i>Montado al aire</span></label><label class="ck"><input type="checkbox" class="pf" value="ran"><span><i class="fa-solid fa-grip-lines"></i>Ranurado</span></label><label class="ck"><input type="checkbox" class="pf" value="met"><span><i class="fa-solid fa-glasses"></i>Aro entero metal</span></label><label class="ck"><input type="checkbox" class="pf" value="ace"><span><i class="fa-solid fa-cube"></i>Aro entero acetato</span></label><label class="ck"><input type="checkbox" class="pf" value="clip"><span><i class="fa-solid fa-clone"></i>Clip-on</span></label><label class="ck"><input type="checkbox" class="pf" value="dep"><span><i class="fa-solid fa-person-running"></i>Deportivo / wrap</span></label></div></div>
 <button class="btn p" onclick="calc()"><i class="fa-solid fa-wand-magic-sparkles"></i>Analizar receta</button>
 </div>
 <div class="out" id="out"><div class="card em"><i class="fa-solid fa-glasses"></i><p>Completá la receta para ver la recomendación personalizada.</p></div></div>
@@ -178,10 +204,10 @@ svg.svg-inline--fa{height:1em;vertical-align:-.125em}
 <script>
 const $=id=>document.getElementById(id);
 const CAT={
-"Diseños de cristal":[["mono","Monofocal esférico","Una sola graduación, lejos o cerca."],["asf","Monofocal asférico / atórico","Más fino, plano y con menos distorsión periférica."],["anti","Antifatiga (relax)","Pequeño aporte de cerca para uso digital intenso."],["ocup","Ocupacional / degresivo","Intermedio y cerca para escritorio."],["prog","Progresivo","Lejos, intermedio y cerca sin línea."],["progp","Progresivo free-form personalizado","Calculado con tus medidas, campo visual amplio."],["bif","Bifocal flat-top","Segmento de cerca visible, económico."],["lec","Lectura / cerca","Solo para tareas de cerca."]],
+"Diseños de cristal":[["mono","Monofocal esférico","Una sola graduación, lejos o cerca."],["asf","Monofocal asférico / atórico","Más fino, plano y con menos distorsión periférica."],["anti","Antifatiga (relax)","Pequeño aporte de cerca para uso digital intenso."],["ocup","Ocupacional / degresivo","Intermedio y cerca para escritorio."],["prog","Progresivo","Lejos, intermedio y cerca sin línea."],["progp","Progresivo free-form personalizado","Calculado con tus medidas, campo visual amplio."],["bif","Bifocal flat-top","Segmento de cerca visible, económico."],["kryp","Kryptok","Bifocal clásico con segmento de cerca redondo incorporado."],["trif","Trifocal","Lejos, intermedio y cerca con segmentos definidos."],["lec","Lectura / cerca","Solo para tareas de cerca."],["miop","Control de miopía infantil","Cristal con microlentes que frena la progresión de la miopía en niños."]],
 "Índice y material":[["i150","1.50 CR-39 orgánico","Estándar, óptica excelente hasta ±2.00."],["i156","1.56 medio índice","Hasta ±3.00, algo más fino."],["i160","1.60 alto índice","±3.00 a ±4.50, ideal para perforados."],["i167","1.67 alto índice","±4.50 a ±6.50."],["i174","1.74 ultra alto índice","Desde ±6.50, máxima reducción de espesor."],["pc","Policarbonato 1.59","Alta resistencia al impacto, niños y deporte."],["tri","Trivex 1.53","Resistente, liviano y nítido; ideal al aire."],["min","Mineral (vidrio)","Máxima dureza y claridad, más pesado."]],
 "Tratamientos":[["ar","Antirreflejo","Elimina reflejos, mejora nitidez y estética."],["blue","Filtro luz azul-violeta","Confort en pantallas y noche."],["foto","Fotocromático","Se oscurece con UV, uso mixto interior/exterior."],["pol","Polarizado","Elimina deslumbramiento de superficies; ideal conducir."],["hard","Endurecido","Resistencia a rayones."],["hidro","Hidro / oleofóbico","Repele agua, grasa y polvo, facilita limpieza."],["uv","Protección UV400","Bloqueo total de radiación ultravioleta."],["vaho","Antivaho","Evita empañamiento en deporte y barbijo."],["tin","Tinte / espejado","Solar con graduación, graduable en intensidad."]],
-"Armazones":[["com","Completo (metal o acetato)","Protege el borde del cristal; el más versátil."],["semi","Semi al aire (ranurado)","Liviano, apto desde índice 1.56."],["aire","Al aire (perforado)","Mínimo, requiere 1.60, PC o Trivex."],["wrap","Wrap deportivo","Curvo, envolvente y resistente."],["avi","Aviador / piloto","Grande; mejor para graduaciones bajas."],["pan","Panto / redondo","Ojos chicos: ayuda a reducir espesor."],["rec","Rectangular / ovalado","Equilibrado, buen campo para progresivos."],["gat","Cat-eye / mariposa","Estético; cuidar altura mínima en progresivos."]],
+"Armazones":[["met","Aro entero metal","Fino y liviano; protege todo el borde del cristal."],["ace","Aro entero acetato","Disimula el espesor del canto; muy resistente."],["semi","Ranurado (semi al aire)","Cristal sujeto por hilo de nylon; desde índice 1.56."],["clip","Clip-on (frente solar)","Frente solar que se monta sobre el armazón graduado."],["aire","Al aire (perforado)","Mínimo, requiere 1.60, PC o Trivex."],["wrap","Wrap deportivo","Curvo, envolvente y resistente."],["avi","Aviador / piloto","Grande; mejor para graduaciones bajas."],["pan","Panto / redondo","Ojos chicos: ayuda a reducir espesor."],["rec","Rectangular / ovalado","Equilibrado, buen campo para progresivos."],["gat","Cat-eye / mariposa","Estético; cuidar altura mínima en progresivos."]],
 "Contactología":[["cs","Blanda esférica","Para miopía o hipermetropía sin astigmatismo relevante."],["ct","Blanda tórica","Astigmatismo desde ~0.75 D."],["cm","Blanda multifocal","Presbicia con visión sin lentes de cerca."],["crgp","Rígida permeable (RGP)","Astigmatismo alto o corneas irregulares."],["cok","Ortoqueratología","Control de miopía y uso nocturno."],["cesc","Escleral","Corneas irregulares, queratocono."]]};
 function ni(v){const x=parseFloat(String(v).replace(',','.'));return isNaN(x)?0:x}
 function eye(p){let s=ni($(p+'_s').value),c=ni($(p+'_c').value),a=ni($(p+'_a').value);if(c>0){s+=c;c=-c;a=a>90?a-90:a+90}
@@ -195,40 +221,51 @@ if(mixed)return'Astigmatismo mixto';
 const myo=e.eq<0,m=Math.abs(e.eq);
 t=myo?'Miopía':'Hipermetropía';g=myo?(m<3?'leve':m<6?'moderada':'alta'):(m<2?'leve':m<5?'moderada':'alta');
 return t+' '+g+(ast?' con astigmatismo '+(Math.abs(e.c)<1?'leve':Math.abs(e.c)<2.5?'moderado':'alto'):'')}
-function calc(){const od=eye('od'),oi=eye('oi'),add=Math.abs(ni($('add').value)),dp=ni($('dp').value),age=ni($('age').value),uso=$('uso').value,pref=$('pref').value;
+function calc(){const od=eye('od'),oi=eye('oi'),add=Math.abs(ni($('add').value)),dpO=ni($('dp_od').value),dpI=ni($('dp_oi').value),hO=ni($('hp_od').value),hI=ni($('hp_oi').value),dp=(dpO&&dpI)?dpO+dpI:0,age=ni($('age').value),uso=[...document.querySelectorAll('.uso:checked')].map(x=>x.value),U=x=>uso.includes(x),prefs=[...document.querySelectorAll('.pf:checked')].map(x=>x.value);
 if(![...'od_s od_c oi_s oi_c add'.split(' ')].some(k=>$(k).value!=='')){return}
-const R=new Set(),pw=Math.max(od.mx,oi.mx),cy=Math.max(Math.abs(od.c),Math.abs(oi.c)),an=Math.abs(od.eq-oi.eq),kid=age>0&&age<16;
+const R=new Set(),pw=Math.max(od.mx,oi.mx),cy=Math.max(Math.abs(od.c),Math.abs(oi.c)),an=Math.abs(od.eq-oi.eq),kid=(age>0&&age<16)||U('kid');
 const hyp=od.eq>0&&oi.eq>0;let design,al=[];
 // diseño
-if(add>=.75||(age>=42&&add>0)){design='Progresivo';R.add('prog');if(pw>=2||add>=2||uso==='pan')R.add('progp');
-if(uso==='pan'){R.add('ocup')}R.add('bif');}
-else if(age>=38&&!add&&uso==='pan'){design='Antifatiga';R.add('anti')}
+if(add>=.75||(age>=42&&add>0)){design='Progresivo';R.add('prog');if(pw>=2||add>=2||U('pan'))R.add('progp');
+if(U('pan')){R.add('ocup')}R.add('bif');R.add('kryp');if(add>=2)R.add('trif');}
+else if(age>=38&&!add&&U('pan')){design='Antifatiga';R.add('anti')}
 else{design=(pw>=3||cy>=2)?'Monofocal asférico':'Monofocal';R.add(pw>=3||cy>=2?'asf':'mono')}
 if(add&&age&&age<38)al.push('Adición con edad temprana: verificar con el profesional (posible insuficiencia de acomodación).');
 // índice
 let idx=pw<=2?'i150':pw<=3?'i156':pw<=4.5?'i160':pw<=6.5?'i167':'i174';
 const names={i150:'1.50',i156:'1.56',i160:'1.60',i167:'1.67',i174:'1.74'};let mat=names[idx];
-const drill=pref==='liv';
-if(kid||uso==='dep'){R.add('pc');R.add('tri');mat=pw>4.5?'Policarbonato 1.59 / Trivex':'Policarbonato 1.59'}
+const P=x=>prefs.includes(x),drill=P('aire')||P('ran');
+if(kid||U('dep')){R.add('pc');R.add('tri');mat=pw>4.5?'Policarbonato 1.59 / Trivex':'Policarbonato 1.59'}
 else{R.add(idx);if(drill&&pw<=3){R.add('tri');R.add('i160');mat+=' (1.60 o Trivex para perforado)'}}
 if(pw>=7)al.push('Graduación alta: usá 1.74 con asférico/atórico y armazón chico para evitar espesor y peso.');
 // tratamientos
 ['ar','hard','hidro','uv'].forEach(x=>R.add(x));
-if(uso==='pan')R.add('blue');if(uso==='con'){R.add('pol');R.add('ar')}if(uso==='ext'){R.add('foto');R.add('pol')}if(uso==='gen')R.add('foto');if(uso==='dep'){R.add('vaho');R.add('foto')}
+if(U('pan'))R.add('blue');if(U('con')){R.add('pol');R.add('ar')}if(U('ext')){R.add('foto');R.add('pol')}if(U('gen')||!uso.length)R.add('foto');if(U('dep')){R.add('vaho');R.add('foto')}if(U('lec')&&add)R.add('lec');
 // armazón
 let fr=[],ft=[];
 if(pw>=4||cy>=3){R.add('com');R.add('pan');R.add('rec');ft.push('Armazón completo, de ojo chico (A ≤ 50 mm) y eje horizontal corto.');ft.push(od.eq<0?'Acetato de borde grueso disimula el espesor del canto del cristal.':'Evitar monturas grandes: la hipermetropía aumenta peso y efecto lupa.');ft.push('Evitar al aire y semi al aire.')}
 else{R.add('com');R.add('rec');R.add('pan');if(pw>=2||drill){R.add('semi')}if((drill&&pw<=4.5)||pw<2){R.add('aire')}ft.push('Casi todo tipo de armazón es viable; priorizá estética y comodidad.');if(drill)ft.push('Para perforado usá 1.60, Trivex o policarbonato con tornillos de seguridad.')}
-if(uso==='dep'||kid){R.add('wrap');R.add('com');ft.push('Armazón flexible, con puente de silicona y banda opcional; evitar metal fino y perforado en niños.')}
+if(U('dep')||kid){R.add('wrap');R.add('com');ft.push('Armazón flexible, con puente de silicona y banda opcional; evitar metal fino y perforado en niños.')}
 if(pw>=6)['avi','gat'].forEach(x=>0);else if(pw<2){R.add('avi');R.add('gat')}
 if(design==='Progresivo'){ft.push('Altura vertical útil ≥ 28–30 mm (corredor corto desde 22 mm). Evitar cat-eye muy estrecho.');R.delete('gat')}
-if(uso==='con')ft.push('Patillas finas para no obstruir el campo periférico al conducir.');
-let dpTxt='';if(dp)dpTxt='Para minimizar descentrado, buscá A + puente de '+(dp-1)+' a '+(dp+3)+' mm (ej.: calibre 50 + puente 18 = 68 es excesivo para DP '+dp+'; ideal ≈ '+Math.round(dp+1)+').';
+if(U('con'))ft.push('Patillas finas para no obstruir el campo periférico al conducir.');
+let dpTxt='';if(dp)dpTxt='Con DP '+dpO+' / '+dpI+' mm (total '+dp+') buscá calibre + puente de '+dp+' a '+(dp+4)+' mm: menos descentrado, cristal más fino y liviano.';
+if(dp&&Math.abs(dpO-dpI)>=2)al.push('DP asimétrica ('+dpO+' / '+dpI+'): centrar cada cristal con su valor monocular, nunca con el total dividido por dos.');
+if(P('aire')){if(pw>4||cy>=2)al.push('Montado al aire no es aconsejable con esta graduación: el borde queda grueso y el tornillo puede astillar el cristal. Se recomienda aro entero.');else{R.add('aire');R.add('tri');R.add('pc');ft.push('Montado al aire: usá Trivex, policarbonato o 1.60 con tornillos de seguridad y puente regulable.')}}
+if(P('ran')){if(pw>5)al.push('Ranurado con graduación alta: el canto queda muy grueso para el hilo de nylon. Preferí aro entero.');else{R.add('semi');ft.push('Ranurado: el cristal se talla con ranura y se sostiene con hilo de nylon; requiere índice 1.56 o superior y buen biselado.')}}
+if(P('met')){R.add('met');if(pw>=4)ft.push('Aro entero metal: elegí perfil fino y calibre chico; el canto grueso queda a la vista.')}
+if(P('ace')){R.add('ace');if(od.eq<0||oi.eq<0)ft.push('Aro entero acetato: el frente grueso disimula el espesor del canto en miopía.')}
+if(P('clip')){R.add('clip');ft.push('Clip-on: pedí el frente solar exacto al calibre y forma del armazón graduado; un solo par con versión sol.')}
+if(P('dep'))R.add('wrap');
+if(R.has('com')){R.add('met');R.add('ace')}
+const hp=(hO&&hI)?Math.min(hO,hI):0;
+if(design==='Progresivo'){if(!hp)al.push('Falta la altura pupilar de ambos ojos: es obligatoria para calcular y montar el progresivo.');else if(hp<14)al.push('Altura pupilar de '+hp+' mm: insuficiente para un progresivo estándar. Evaluá un armazón más alto, un ocupacional o un bifocal.');else{if(hp<18)al.push('Altura pupilar de '+hp+' mm: corresponde un progresivo de corredor corto (≈11 mm) y un armazón de poca altura.');ft.push('Altura vertical del armazón (B) de al menos '+(Math.max(hO,hI)+8)+' mm para aprovechar todo el corredor del progresivo.')}}
+if(hO&&hI&&Math.abs(hO-hI)>=2)al.push('Alturas pupilares distintas ('+hO+' / '+hI+'): montar cada cristal con su propia altura.');
 // alertas
 if(an>=2){al.push('Anisometropía de '+an.toFixed(2)+' D: riesgo de aniseiconía y prisma inducido. Usá índices y asféricos balanceados y considerá lente de contacto.')}
 if(Math.abs(od.a-oi.a)>20&&cy>=1&&od.c&&oi.c)al.push('Los ejes de astigmatismo difieren notablemente entre ojos: posible adaptación más lenta; informá al paciente.');
 if(cy>=2)al.push('Astigmatismo alto: respetar eje exacto y pedir diseño atórico.');
-if(!dp)al.push('Falta la DP: medila (monocular) para centrado correcto del cristal.');
+if(!dp)al.push('Falta la DP monocular de ambos ojos (por ejemplo 28 / 28): es clave para centrar bien el cristal.');
 // contactología
 let ctl=[od,oi].map((e,i)=>{const nm=i?'OI':'OD',s2=e.s+e.c;let tp,k;
 if(add>=.75||(age>=42&&add>0)){tp='Multifocal';R.add('cm')}
@@ -240,26 +277,40 @@ return'<b>'+nm+'</b>: '+tp+' · '+fmt(r25(a))+(Math.abs(e.c)>=.75?' '+fmt(cc)+' 
 const h=(a,b)=>`<div class="mini"><b>${a}</b>${b}</div>`;
 const pills=x=>x.map(t=>`<span class="pill">${t}</span>`).join('');
 const trat=[...R].filter(k=>CAT["Tratamientos"].some(c=>c[0]===k)).map(k=>CAT["Tratamientos"].find(c=>c[0]===k)[1]);
+const sc=design==='Progresivo'&&hp>0&&hp<18,km=kid&&(od.eq<=-.5||oi.eq<=-.5)&&!add;
+if(km)R.add('miop');
+if(kid)al.push('Niños: controles cada 6 a 12 meses, monturas flexibles con puente de silicona y centrado preciso; la graduación puede cambiar rápido.');
+const rd=km?'Control de miopía infantil':design==='Progresivo'?(R.has('progp')?'Progresivo free-form personalizado':'Progresivo')+(sc?' · corredor corto':''):design;
+const ed=design==='Progresivo'?'Progresivo estándar'+(sc?' · corredor corto':''):design==='Antifatiga'?'Monofocal':design==='Monofocal asférico'?'Monofocal esférico':design;
+const lo={i174:'i167',i167:'i160',i160:'i156',i156:'i150',i150:'i150'},nn={i150:1.5,i156:1.56,i160:1.6,i167:1.67,i174:1.74},safe=kid||U('dep')||drill;
+const ei=lo[idx],em=safe?'Policarbonato 1.59':names[ei],nR=(kid||U('dep'))?1.59:nn[idx],nE=safe?1.59:nn[ei];
+const dif=Math.max(0,3025*pw/2000*(1/(nE-1)-1/(nR-1)));
+const ET=['ar','hard','uv'].map(k=>CAT["Tratamientos"].find(c=>c[0]===k)[1]),drop=trat.filter(x=>!ET.includes(x));
+const OP=OPT==='eco'?'eco':'rec',sd=OP==='eco'?ed:rd,sm=OP==='eco'?em:mat,st=OP==='eco'?ET:trat;
+const oc=(k,t,ic,d,m,tr,nt)=>`<div class="opt${OP===k?' on':''}" role="button" tabindex="0" onclick="setOpt('${k}')" onkeydown="if(event.key==='Enter')setOpt('${k}')"><div class="oh"><span class="ot"><i class="fa-solid ${ic}"></i>${t}</span><span class="os">${OP===k?'<i class="fa-solid fa-circle-check"></i> En la receta':'Elegir'}</span></div><p class="big">${d}</p><div class="hero"><span class="pill a">Material: ${m}</span></div><div class="hero">${pills(tr)}</div><div class="on2">${nt}</div></div>`;
+const opts=`<div class="opts">${oc('rec','Recomendado','fa-crown',rd,mat,trat,'Mejor óptica, estética y durabilidad para esta receta.')}${oc('eco','Económico','fa-piggy-bank',ed,em,ET,(dif>=.1?'Cristal ≈ '+dif.toFixed(1)+' mm más grueso. ':'')+(drop.length?'Sin: '+drop.join(', ')+'.':'Mismos tratamientos esenciales.'))}</div>`;
+const efr=kid?'Armazón infantil flexible de línea básica, con puente de silicona y patillas ajustables.':(pw>=4||cy>=3)?'Aro entero estándar de acetato o metal, calibre chico: la montura más económica y la más adecuada para graduaciones altas.':drill?'Aro entero estándar: evita el costo del perforado o ranurado y reduce el riesgo de rotura.':'Aro entero de acetato o metal de línea básica; con 1.56 o policarbonato mantenés el costo bajo sin perder seguridad.';
 $('out').innerHTML=`<div class="card"><h2><span class="ib"><i class="fa-solid fa-stethoscope"></i></span>Diagnóstico óptico</h2><div class="cols">${h('OD · '+rxs('od'),dx(od)+'<br>Eq. esférico '+fmt(od.eq)+' <small style="color:var(--mu)">(solo referencia)</small>')}${h('OI · '+rxs('oi'),dx(oi)+'<br>Eq. esférico '+fmt(oi.eq)+' <small style="color:var(--mu)">(solo referencia)</small>')}</div>${add?'<div class="mini" style="margin-top:12px"><b>Presbicia</b>Adición '+fmt(add)+' D</div>':''}</div>
-<div class="card"><h2><span class="ib"><i class="fa-solid fa-circle-half-stroke"></i></span>Cristal recomendado</h2><p class="big">${design}</p><div class="hero"><span class="pill a">Material/índice: ${mat}</span>${pw>=3||cy>=2?'<span class="pill a">Diseño asférico / atórico</span>':''}${hyp&&pw>=2?'<span class="pill">Reducir diámetro</span>':''}</div>${thick(pw,names[idx])}<div class="tt">Tratamientos</div><div class="hero" style="margin-top:6px">${pills(trat)}</div></div>
-${rxCard(add,dp,design,mat,trat)}<div class="card"><h2><span class="ib"><i class="fa-solid fa-glasses"></i></span>Armazón recomendado</h2><ul>${ft.map(x=>'<li>'+x+'</li>').join('')}</ul>${dpTxt?'<p class="note">'+dpTxt+'</p>':''}</div>
+<div class="card"><h2><span class="ib"><i class="fa-solid fa-circle-half-stroke"></i></span>Opciones de cristal</h2>${opts}<div class="hero">${pw>=3||cy>=2?'<span class="pill a">Diseño asférico / atórico</span>':''}${hyp&&pw>=2?'<span class="pill">Reducir diámetro</span>':''}</div>${thick(pw,names[idx])}</div>
+${rxCard(add,dp?dpO+' / '+dpI+' mm (total '+dp+')':'',sd,sm,st,(hO&&hI)?'OD '+hO+' / OI '+hI+' mm':'')}<div class="card"><h2><span class="ib"><i class="fa-solid fa-glasses"></i></span>Armazón recomendado</h2><ul>${ft.map(x=>'<li>'+x+'</li>').join('')}</ul><div class="mini" style="margin-top:12px"><b>Opción económica</b>${efr}</div>${dpTxt?'<p class="note">'+dpTxt+'</p>':''}</div>
 <div class="card"><h2><span class="ib"><i class="fa-solid fa-circle-dot"></i></span>Alternativa en contactología</h2><div class="mini">${ctl}</div></div>
 ${al.length?'<div class="card"><h2><span class="ib"><i class="fa-solid fa-triangle-exclamation"></i></span>Advertencias</h2>'+al.map(x=>'<div class="al"><i class="fa-solid fa-triangle-exclamation"></i><div>'+x+'</div></div>').join('')+'</div>':'<div class="al ok"><i class="fa-solid fa-circle-check"></i><div>Sin alertas ópticas relevantes.</div></div>'}`;
 drawCat(R)}
 let LR,only=false;
 const GI={"Diseños de cristal":'fa-eye',"Índice y material":'fa-layer-group',"Tratamientos":'fa-wand-magic-sparkles',"Armazones":'fa-glasses',"Contactología":'fa-circle-dot'};
-const IC={mono:'eye',asf:'circle-notch',anti:'feather',ocup:'desktop',prog:'sliders',progp:'wand-magic-sparkles',bif:'grip-lines',lec:'book-open',i150:'layer-group',i156:'layer-group',i160:'layer-group',i167:'layer-group',i174:'layer-group',pc:'shield-halved',tri:'feather',min:'gem',ar:'circle-half-stroke',blue:'display',foto:'cloud-sun',pol:'road',hard:'shield',hidro:'droplet',uv:'sun',vaho:'wind',tin:'palette',com:'glasses',semi:'grip-lines',aire:'feather-pointed',wrap:'person-running',avi:'plane',pan:'circle',rec:'square',gat:'star',cs:'circle-dot',ct:'bullseye',cm:'layer-group',crgp:'circle',cok:'moon',cesc:'circle-notch'};
+const IC={mono:'eye',asf:'circle-notch',anti:'feather',ocup:'desktop',prog:'sliders',progp:'wand-magic-sparkles',bif:'grip-lines',lec:'book-open',i150:'layer-group',i156:'layer-group',i160:'layer-group',i167:'layer-group',i174:'layer-group',pc:'shield-halved',tri:'feather',min:'gem',ar:'circle-half-stroke',blue:'display',foto:'cloud-sun',pol:'road',hard:'shield',hidro:'droplet',uv:'sun',vaho:'wind',tin:'palette',com:'glasses',semi:'grip-lines',aire:'feather-pointed',wrap:'person-running',avi:'plane',pan:'circle',rec:'square',gat:'star',kryp:'bullseye',miop:'child',trif:'bars',met:'glasses',ace:'cube',clip:'clone',cs:'circle-dot',ct:'bullseye',cm:'layer-group',crgp:'circle',cok:'moon',cesc:'circle-notch'};
 let LT;
 function rxo(p){let s=ni($(p+'_s').value),c=ni($(p+'_c').value),a=ni($(p+'_a').value);if(!c)a=0;else if(!a)a=180;return{s,c,a}}
 function rxs(p){const o=rxo(p);return(o.s===0?'Plano':fmt(o.s))+(o.c?' '+fmt(o.c)+' ×'+o.a+'°':'')}
-function rxCard(add,dp,design,mat,trat){const f=x=>x===0?'Plano':fmt(x);LT={add,dp,d:design,m:mat,t:trat.join(', ')};
+function rxCard(add,dp,design,mat,trat,hS){const f=x=>x===0?'Plano':fmt(x);LT={add,dp,h:hS,d:design,m:mat,t:trat.join(', ')};
 const rows=[['OD',rxo('od')],['OI',rxo('oi')]].map(([n,o])=>{const t=o.c?{s:o.s+o.c,c:-o.c,a:o.a>90?o.a-90:o.a+90}:null;return`<tr><th>${n}</th><td>${f(o.s)}</td><td>${o.c?fmt(o.c):'—'}</td><td>${o.c?o.a+'°':'—'}</td><td>${t?f(t.s)+' '+fmt(t.c)+' × '+t.a+'°':'—'}</td></tr>`}).join('');
-return`<div class="card"><h2><span class="ib"><i class="fa-solid fa-clipboard-list"></i></span>Receta para taller</h2><div class="rxw"><table class="rx"><thead><tr><th></th><th>Esfera</th><th>Cilindro</th><th>Eje</th><th>Transpuesta</th></tr></thead><tbody>${rows}</tbody></table></div><div class="rxm">${add?`<div class="mini"><b>Adición</b>${fmt(add)} D</div>`:''}${dp?`<div class="mini"><b>DP</b>${dp} mm</div>`:''}<div class="mini"><b>Diseño</b>${design}</div><div class="mini"><b>Índice / material</b>${mat}</div></div><div class="al ok" style="margin-top:14px"><i class="fa-solid fa-circle-info"></i><div>Se envía <b>esfera, cilindro y eje exactos</b> tal como fueron indicados. La columna <i>transpuesta</i> es la misma receta escrita en otra notación (informativa). El equivalente esférico <b>no</b> se usa para fabricar.</div></div><button class="btn" id="cp" onclick="copyRx()" style="margin-top:14px"><i class="fa-solid fa-copy"></i>Copiar receta</button></div>`}
+return`<div class="card"><h2><span class="ib"><i class="fa-solid fa-clipboard-list"></i></span>Receta para taller</h2><div class="rxw"><table class="rx"><thead><tr><th></th><th>Esfera</th><th>Cilindro</th><th>Eje</th><th>Transpuesta</th></tr></thead><tbody>${rows}</tbody></table></div><div class="rxm">${add?`<div class="mini"><b>Adición</b>${fmt(add)} D</div>`:''}${dp?`<div class="mini"><b>DP monocular</b>${dp}</div>`:''}${hS?`<div class="mini"><b>Altura pupilar</b>${hS}</div>`:''}<div class="mini"><b>Diseño</b>${design}</div><div class="mini"><b>Índice / material</b>${mat}</div></div><div class="al ok" style="margin-top:14px"><i class="fa-solid fa-circle-info"></i><div>Se envía <b>esfera, cilindro y eje exactos</b> tal como fueron indicados. La columna <i>transpuesta</i> es la misma receta escrita en otra notación (informativa). El equivalente esférico <b>no</b> se usa para fabricar.</div></div><button class="btn" id="cp" onclick="copyRx()" style="margin-top:14px"><i class="fa-solid fa-copy"></i>Copiar receta</button></div>`}
 function copyRx(){const o=rxo('od'),q=rxo('oi'),f=x=>x===0?'Plano':fmt(x),l=(n,r)=>n+': '+f(r.s)+(r.c?' '+fmt(r.c)+' x '+r.a+'°':'');
-const t=l('OD',o)+'\n'+l('OI',q)+(LT.add?'\nADD: '+fmt(LT.add):'')+(LT.dp?'\nDP: '+LT.dp+' mm':'')+'\nCristal: '+LT.d+' · '+LT.m+'\nTratamientos: '+LT.t;
+const t=l('OD',o)+'\n'+l('OI',q)+(LT.add?'\nADD: '+fmt(LT.add):'')+(LT.dp?'\nDP: '+LT.dp:'')+(LT.h?'\nAltura pupilar: '+LT.h:'')+'\nCristal: '+LT.d+' · '+LT.m+'\nTratamientos: '+LT.t;
 const b=$('cp'),ok=()=>{b.innerHTML='<i class="fa-solid fa-check"></i>Copiado';setTimeout(()=>b.innerHTML='<i class="fa-solid fa-copy"></i>Copiar receta',1800)};
 function fb(){const a=document.createElement('textarea');a.value=t;document.body.appendChild(a);a.select();try{document.execCommand('copy');ok()}catch(e){}a.remove()}
 try{navigator.clipboard.writeText(t).then(ok,fb)}catch(e){fb()}}
+let OPT='rec';function setOpt(k){OPT=k;calc()}
 function setOnly(v){only=v;drawCat(LR)}
 function thick(p,k){const T=[['1.50',1.5],['1.56',1.56],['1.60',1.6],['1.67',1.67],['1.74',1.74]].map(([l,n])=>[l,3025*p/(2000*(n-1))+1.5]);const m=T[0][1];return'<div class="tt">Espesor estimado · Ø 55 mm</div>'+T.map(([l,v])=>`<div class="tb${l===k?' on':''}"><span>${l}</span><div class="tr"><span class="tf" style="width:${Math.max(8,v/m*100)}%"></span></div><em>${v.toFixed(1)} mm</em></div>`).join('')}
 function drawCat(R){LR=R;const f=only&&R;$('cat').innerHTML=`<div class="cath"><h2><span class="ib"><i class="fa-solid fa-table-cells-large"></i></span>Catálogo completo</h2><div class="seg"><button class="${f?'':'on'}" onclick="setOnly(false)">Todo</button><button class="${f?'on':''}" onclick="setOnly(true)">Solo recomendados</button></div></div>`+Object.entries(CAT).map(([g,a])=>{const l=f?a.filter(c=>R.has(c[0])):a;return l.length?`<div><h3><span class="ib"><i class="fa-solid ${GI[g]}"></i></span>${g}</h3><div class="cg">${l.map(c=>`<div class="it${R&&R.has(c[0])?' rec':''}"><span class="ib"><i class="fa-solid fa-${IC[c[0]]}"></i></span><div><b>${c[1]}</b><span>${c[2]}</span></div></div>`).join('')}</div></div>`:''}).join('')}
@@ -267,5 +318,5 @@ drawCat();
 function setT(t){document.documentElement.dataset.theme=t;$('th').innerHTML=t==='dark'?'<i class="fa-solid fa-sun"></i>':'<i class="fa-solid fa-moon"></i>'}
 setT(matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');
 $('th').onclick=()=>setT(document.documentElement.dataset.theme==='dark'?'light':'dark');
-document.querySelectorAll('.in').forEach(e=>e.addEventListener('change',calc));
+document.querySelectorAll('.in,.ck input').forEach(e=>e.addEventListener('change',calc));
 </script></body></html>
