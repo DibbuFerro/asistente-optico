@@ -144,6 +144,16 @@ svg.svg-inline--fa{height:1em;vertical-align:-.125em}
 .tb em{font-style:normal;color:var(--mu);text-align:right;font-variant-numeric:tabular-nums}
 .al{display:flex;gap:12px;align-items:flex-start}.al svg{margin-top:4px;flex:none;color:var(--wn)}.al.ok svg{color:var(--ok)}
 .em::before{content:none}.em svg{width:60px;height:60px;color:var(--ac);margin-bottom:16px;filter:drop-shadow(0 12px 18px rgba(110,130,255,.45))}.em p{margin:0}
+
+.rxw{overflow-x:auto;margin:-4px -4px 0;padding:0 4px}
+.rx{width:100%;min-width:440px;border-collapse:separate;border-spacing:0 8px;text-align:center;font-weight:700;font-variant-numeric:tabular-nums}
+.rx thead th{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--mu);font-weight:800;padding:0 8px 2px}
+.rx tbody th,.rx td{padding:15px 10px;background:rgba(127,140,180,.12)}
+.rx tbody th{border-radius:16px 0 0 16px;color:var(--ac);font-weight:800;letter-spacing:.06em}
+.rx td:last-child{border-radius:0 16px 16px 0;color:var(--mu);font-weight:600}
+.rx td:nth-child(2),.rx td:nth-child(3),.rx td:nth-child(4){font-size:17px}
+.rxm{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin-top:10px}
+.al b{font-weight:800}
 </style></head><body><div class="w">
 <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px"><div><div class="eb"><i class="fa-solid fa-glasses"></i> Óptica &amp; Contactología</div><h1>Asistente <span>óptico</span></h1></div><button class="btn" id="th" aria-label="Cambiar entre modo claro y oscuro" title="Modo claro / oscuro"><i class="fa-solid fa-moon"></i></button></div>
 <p class="sub">Ingresá la receta y obtené el cristal, tratamientos, armazón y lente de contacto más adecuados.</p>
@@ -230,15 +240,26 @@ return'<b>'+nm+'</b>: '+tp+' · '+fmt(r25(a))+(Math.abs(e.c)>=.75?' '+fmt(cc)+' 
 const h=(a,b)=>`<div class="mini"><b>${a}</b>${b}</div>`;
 const pills=x=>x.map(t=>`<span class="pill">${t}</span>`).join('');
 const trat=[...R].filter(k=>CAT["Tratamientos"].some(c=>c[0]===k)).map(k=>CAT["Tratamientos"].find(c=>c[0]===k)[1]);
-$('out').innerHTML=`<div class="card"><h2><span class="ib"><i class="fa-solid fa-stethoscope"></i></span>Diagnóstico óptico</h2><div class="cols">${h('OD · '+fmt(od.s)+' '+fmt(od.c)+' ×'+od.a,dx(od)+'<br>Eq. esférico '+fmt(od.eq))}${h('OI · '+fmt(oi.s)+' '+fmt(oi.c)+' ×'+oi.a,dx(oi)+'<br>Eq. esférico '+fmt(oi.eq))}</div>${add?'<div class="mini" style="margin-top:12px"><b>Presbicia</b>Adición '+fmt(add)+' D</div>':''}</div>
+$('out').innerHTML=`<div class="card"><h2><span class="ib"><i class="fa-solid fa-stethoscope"></i></span>Diagnóstico óptico</h2><div class="cols">${h('OD · '+rxs('od'),dx(od)+'<br>Eq. esférico '+fmt(od.eq)+' <small style="color:var(--mu)">(solo referencia)</small>')}${h('OI · '+rxs('oi'),dx(oi)+'<br>Eq. esférico '+fmt(oi.eq)+' <small style="color:var(--mu)">(solo referencia)</small>')}</div>${add?'<div class="mini" style="margin-top:12px"><b>Presbicia</b>Adición '+fmt(add)+' D</div>':''}</div>
 <div class="card"><h2><span class="ib"><i class="fa-solid fa-circle-half-stroke"></i></span>Cristal recomendado</h2><p class="big">${design}</p><div class="hero"><span class="pill a">Material/índice: ${mat}</span>${pw>=3||cy>=2?'<span class="pill a">Diseño asférico / atórico</span>':''}${hyp&&pw>=2?'<span class="pill">Reducir diámetro</span>':''}</div>${thick(pw,names[idx])}<div class="tt">Tratamientos</div><div class="hero" style="margin-top:6px">${pills(trat)}</div></div>
-<div class="card"><h2><span class="ib"><i class="fa-solid fa-glasses"></i></span>Armazón recomendado</h2><ul>${ft.map(x=>'<li>'+x+'</li>').join('')}</ul>${dpTxt?'<p class="note">'+dpTxt+'</p>':''}</div>
+${rxCard(add,dp,design,mat,trat)}<div class="card"><h2><span class="ib"><i class="fa-solid fa-glasses"></i></span>Armazón recomendado</h2><ul>${ft.map(x=>'<li>'+x+'</li>').join('')}</ul>${dpTxt?'<p class="note">'+dpTxt+'</p>':''}</div>
 <div class="card"><h2><span class="ib"><i class="fa-solid fa-circle-dot"></i></span>Alternativa en contactología</h2><div class="mini">${ctl}</div></div>
 ${al.length?'<div class="card"><h2><span class="ib"><i class="fa-solid fa-triangle-exclamation"></i></span>Advertencias</h2>'+al.map(x=>'<div class="al"><i class="fa-solid fa-triangle-exclamation"></i><div>'+x+'</div></div>').join('')+'</div>':'<div class="al ok"><i class="fa-solid fa-circle-check"></i><div>Sin alertas ópticas relevantes.</div></div>'}`;
 drawCat(R)}
 let LR,only=false;
 const GI={"Diseños de cristal":'fa-eye',"Índice y material":'fa-layer-group',"Tratamientos":'fa-wand-magic-sparkles',"Armazones":'fa-glasses',"Contactología":'fa-circle-dot'};
 const IC={mono:'eye',asf:'circle-notch',anti:'feather',ocup:'desktop',prog:'sliders',progp:'wand-magic-sparkles',bif:'grip-lines',lec:'book-open',i150:'layer-group',i156:'layer-group',i160:'layer-group',i167:'layer-group',i174:'layer-group',pc:'shield-halved',tri:'feather',min:'gem',ar:'circle-half-stroke',blue:'display',foto:'cloud-sun',pol:'road',hard:'shield',hidro:'droplet',uv:'sun',vaho:'wind',tin:'palette',com:'glasses',semi:'grip-lines',aire:'feather-pointed',wrap:'person-running',avi:'plane',pan:'circle',rec:'square',gat:'star',cs:'circle-dot',ct:'bullseye',cm:'layer-group',crgp:'circle',cok:'moon',cesc:'circle-notch'};
+let LT;
+function rxo(p){let s=ni($(p+'_s').value),c=ni($(p+'_c').value),a=ni($(p+'_a').value);if(!c)a=0;else if(!a)a=180;return{s,c,a}}
+function rxs(p){const o=rxo(p);return(o.s===0?'Plano':fmt(o.s))+(o.c?' '+fmt(o.c)+' ×'+o.a+'°':'')}
+function rxCard(add,dp,design,mat,trat){const f=x=>x===0?'Plano':fmt(x);LT={add,dp,d:design,m:mat,t:trat.join(', ')};
+const rows=[['OD',rxo('od')],['OI',rxo('oi')]].map(([n,o])=>{const t=o.c?{s:o.s+o.c,c:-o.c,a:o.a>90?o.a-90:o.a+90}:null;return`<tr><th>${n}</th><td>${f(o.s)}</td><td>${o.c?fmt(o.c):'—'}</td><td>${o.c?o.a+'°':'—'}</td><td>${t?f(t.s)+' '+fmt(t.c)+' × '+t.a+'°':'—'}</td></tr>`}).join('');
+return`<div class="card"><h2><span class="ib"><i class="fa-solid fa-clipboard-list"></i></span>Receta para taller</h2><div class="rxw"><table class="rx"><thead><tr><th></th><th>Esfera</th><th>Cilindro</th><th>Eje</th><th>Transpuesta</th></tr></thead><tbody>${rows}</tbody></table></div><div class="rxm">${add?`<div class="mini"><b>Adición</b>${fmt(add)} D</div>`:''}${dp?`<div class="mini"><b>DP</b>${dp} mm</div>`:''}<div class="mini"><b>Diseño</b>${design}</div><div class="mini"><b>Índice / material</b>${mat}</div></div><div class="al ok" style="margin-top:14px"><i class="fa-solid fa-circle-info"></i><div>Se envía <b>esfera, cilindro y eje exactos</b> tal como fueron indicados. La columna <i>transpuesta</i> es la misma receta escrita en otra notación (informativa). El equivalente esférico <b>no</b> se usa para fabricar.</div></div><button class="btn" id="cp" onclick="copyRx()" style="margin-top:14px"><i class="fa-solid fa-copy"></i>Copiar receta</button></div>`}
+function copyRx(){const o=rxo('od'),q=rxo('oi'),f=x=>x===0?'Plano':fmt(x),l=(n,r)=>n+': '+f(r.s)+(r.c?' '+fmt(r.c)+' x '+r.a+'°':'');
+const t=l('OD',o)+'\n'+l('OI',q)+(LT.add?'\nADD: '+fmt(LT.add):'')+(LT.dp?'\nDP: '+LT.dp+' mm':'')+'\nCristal: '+LT.d+' · '+LT.m+'\nTratamientos: '+LT.t;
+const b=$('cp'),ok=()=>{b.innerHTML='<i class="fa-solid fa-check"></i>Copiado';setTimeout(()=>b.innerHTML='<i class="fa-solid fa-copy"></i>Copiar receta',1800)};
+function fb(){const a=document.createElement('textarea');a.value=t;document.body.appendChild(a);a.select();try{document.execCommand('copy');ok()}catch(e){}a.remove()}
+try{navigator.clipboard.writeText(t).then(ok,fb)}catch(e){fb()}}
 function setOnly(v){only=v;drawCat(LR)}
 function thick(p,k){const T=[['1.50',1.5],['1.56',1.56],['1.60',1.6],['1.67',1.67],['1.74',1.74]].map(([l,n])=>[l,3025*p/(2000*(n-1))+1.5]);const m=T[0][1];return'<div class="tt">Espesor estimado · Ø 55 mm</div>'+T.map(([l,v])=>`<div class="tb${l===k?' on':''}"><span>${l}</span><div class="tr"><span class="tf" style="width:${Math.max(8,v/m*100)}%"></span></div><em>${v.toFixed(1)} mm</em></div>`).join('')}
 function drawCat(R){LR=R;const f=only&&R;$('cat').innerHTML=`<div class="cath"><h2><span class="ib"><i class="fa-solid fa-table-cells-large"></i></span>Catálogo completo</h2><div class="seg"><button class="${f?'':'on'}" onclick="setOnly(false)">Todo</button><button class="${f?'on':''}" onclick="setOnly(true)">Solo recomendados</button></div></div>`+Object.entries(CAT).map(([g,a])=>{const l=f?a.filter(c=>R.has(c[0])):a;return l.length?`<div><h3><span class="ib"><i class="fa-solid ${GI[g]}"></i></span>${g}</h3><div class="cg">${l.map(c=>`<div class="it${R&&R.has(c[0])?' rec':''}"><span class="ib"><i class="fa-solid fa-${IC[c[0]]}"></i></span><div><b>${c[1]}</b><span>${c[2]}</span></div></div>`).join('')}</div></div>`:''}).join('')}
